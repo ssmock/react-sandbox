@@ -1,7 +1,7 @@
 import { Hexagon, Hexagons } from "./hexagon";
 import { Points } from "./point";
 
-describe("Hexagons", () => {
+describe("Hexagons.toCoords", () => {
     it("should have six points", () => {
         const h: Hexagon = { origin: { x: 10, y: 20 }, sideLength: 30 };
 

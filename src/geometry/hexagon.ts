@@ -7,10 +7,14 @@ export type Hexagon = {
 }
 
 export const Hexagons = {
+    getHalfHeight(sideLength: number) {
+      const numbers = precalc();
+      return (numbers.sin60 * sideLength)
+    },
+  
     toCoords(h: Hexagon) {
-        const numbers = precalc();
         const halfSideLength = h.sideLength / 2;
-        const halfHeight = (numbers.sin60 * h.sideLength)
+        const halfHeight = Hexagons.getHalfHeight(h.sideLength);
 
         const points = [
             h.origin,
