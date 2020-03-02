@@ -34,7 +34,7 @@ export const Polyfields = {
 
             return {
                 x,
-                y: column % 2 === 0 ? 0 : halfHeight
+                y: (column % 2 === 0 ? 0 : halfHeight) + (row * halfHeight * 2)
             };
         };
     }

@@ -57,14 +57,20 @@ describe("Polyfields.getHexagonOriginForLength(10)", () => {
     });
 
     it("should not offset y in an even column", () => {
-        const p = getOrigin(99, 20);
+        const p = getOrigin(0, 20);
         
         expect(p.y).toEqual(0);
     });
 
     it("should offset y by half the hexagon's height in an odd column", () => {
-        const p = getOrigin(99, 21);
+        const p = getOrigin(0, 21);
         
         expect(p.y).toEqual(halfHeight);
+    });
+
+    it("should offset y by the height times the row number", () => {
+        const p = getOrigin(100, 20);
+        
+        expect(p.y).toEqual(halfHeight * 2 * 100);
     });
 });
