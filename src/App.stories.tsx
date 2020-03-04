@@ -2,15 +2,15 @@ import React from 'react';
 import { Hexagon, Hexagons } from "./geometry/hexagon";
 import { PrettyJson } from './PrettyJson';
 import { Polyfield, Polyfields } from './geometry/polyfield';
+import { Hex } from './components/hex';
 
 export default { title: 'App' };
 
 export const hexagon = () => {
     const h: Hexagon = { origin: { x: 100, y: 100 }, sideLength: 100 }
-    const coords: string = Hexagons.toSvgCoords(h);
 
     return (<svg height="400" width="400" style={{ background: "#aaa" }}>
-                <polygon stroke="#000" points={coords} />
+                <Hex Fill="#000" Stroke="#00F" Geometry={h} />
             </svg>);
 }
 
@@ -27,10 +27,7 @@ export const hexField = () => {
     console.log(origins);
 
     const hexes = origins.map(origin => {
-        const coords = Hexagons.toSvgCoords({ origin, sideLength });
-
-        return (<polygon stroke="#88A" fill="#FFF"
-                         points={coords} />)
+        return (<Hex Fill="#DB4" Stroke="#870" Geometry={{ origin, sideLength }} />)
     });
 
     return (<svg height="400" width="400">
