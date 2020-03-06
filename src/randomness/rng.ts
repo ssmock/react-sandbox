@@ -14,5 +14,9 @@ export const Rng = {
         }
     
         return lazyPrng();
+    },
+
+    pick<T>(low: number, high: number) {
+        throw Error("Not implemented");
     }
 }

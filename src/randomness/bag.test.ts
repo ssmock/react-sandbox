@@ -1,19 +1,43 @@
 import { Bags } from "./bag";
+import { Rng } from "./rng";
+import { Range } from "immutable";
 
-describe("Bags.take", () => {
-    it("should return nothing when the bag is empty", () => {
-        const b = { items: [] }
+describe("Bags.make", () => {
+    it("should make a new bag containing a set of items", () => {
+        const b = Bags.make([1, 2, 3]);
 
-        const taken = Bags.take(b, 1);
+        expect(b.items.count()).toEqual(3);
+    });
+    
+    it("should ignore duplicates of primative values", () => {
+        const b = Bags.make([1, 2, 2, 1]);
+    
+        expect(b.items.count()).toEqual(2);
+    });
+    
+    it("should not ignore structurally equal duplicates", () => {
+        const b = Bags.make([
+            { a: 1 }, 
+            { a: 2 }, 
+            { a: 2 }, 
+            { a: 1 }]);
+    
+        expect(b.items.count()).toEqual(4);
+    });
+});
 
-        expect(taken.items).toBeEmpty();
-        expect(taken.bag.items).toBeEmpty();
+xdescribe("Bags.takeOne", () => {
+    beforeAll(() => {
+        Rng.seed("Bags.take");
     });
 
-    it("should reduce the size of the bag by the given number", () => {
-    });    
+    it("should take an item at random", () => {
+        const items = Range(0, 10).toArray();
+        const b = Bags.make(items);
 
-    it("should return the given number of items", () => {
+        const taken = Bags.takeOne(b);
 
+        expect(taken.bag.items.count()).toBe(9);
+        expect(taken.selection).toEqual(3);
     });
 });

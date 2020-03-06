@@ -15,6 +15,12 @@ export type ManyFromBag<T> = {
 }
 
 export const Bags = {
+    make<T>(items: T[]): Bag<T> {
+        return {
+            items: Set(items)
+        };
+    },
+
     takeOne<T>(bag: Bag<T>): FromBag<T> {
         throw Error("Not implemented");
     },
