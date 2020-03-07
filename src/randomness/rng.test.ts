@@ -2,17 +2,6 @@ import { Range } from "immutable";
 import { Rng } from "./rng";
 
 describe("Rng.get", () => {
-    it("should throw an error if `get` is called before `seed`", () => {
-        try {
-            Rng.get();
-
-            fail("It should have thrown an error.");
-        }
-        catch (ex) {
-            expect((ex as Error).message).toMatch(/seed/i);
-        }
-    });
-
     it("should get the same pseudorandom sequence given a particular seed", () => {
         Rng.seed("this");
 
@@ -21,21 +10,9 @@ describe("Rng.get", () => {
     });
 });
 
-xdescribe("Rng.pick", () => {
-    it("should throw an error if `pick` is called before `seed`", () => {
-        try {
-            Rng.pick(0, 10);
-
-            fail("It should have thrown an error.");
-        }
-        catch (ex) {
-            expect((ex as Error).message).toMatch(/seed/i);
-        }
-    });
-
+describe("Rng.pick", () => {
     it("should always pick a number in range", () => {
         Rng.seed("this");
-
 
         for (let i = 0; i < 200; i++) {
             const picked = Rng.pick(3, 11);
@@ -43,5 +20,30 @@ xdescribe("Rng.pick", () => {
             expect(picked).toBeLessThanOrEqual(11);
             expect(picked).toBeGreaterThanOrEqual(3);
         }
+    });
+
+    it("should pick a relatively uniform distribution", () => {
+        Rng.seed("this");
+        
+        const dist: number[][] = [[], [], [], []];
+        
+        for (let i = 0; i < 1000; i++) {
+            const picked = Rng.pick(0, 3);
+            
+            dist[picked].push(i);
+        }
+        
+        Rng.seed("that");
+
+        for (let i = 0; i < 1000; i++) {
+            const picked = Rng.pick(0, 3);
+
+            dist[picked].push(i);
+        }
+
+        expect(dist[0].length / 100).toBeCloseTo(5, 1);
+        expect(dist[1].length / 100).toBeCloseTo(5, 1);
+        expect(dist[2].length / 100).toBeCloseTo(5, 1);
+        expect(dist[3].length / 100).toBeCloseTo(5, 1);
     });
 });

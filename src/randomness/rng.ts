@@ -1,4 +1,5 @@
 import seedrandom from "seedrandom";
+import { Mapping } from "../math/mapping";
 
 let lazyPrng: () => number;
 
@@ -17,6 +18,13 @@ export const Rng = {
     },
 
     pick<T>(low: number, high: number) {
-        throw Error("Not implemented");
+        const r = Rng.get();
+        const m =
+            Mapping.linear(
+                r,
+                low, 
+                high + 1); // Inclusive
+
+        return Math.floor(m);
     }
 }
