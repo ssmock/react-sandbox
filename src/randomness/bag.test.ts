@@ -113,14 +113,54 @@ describe("Bags.takeMany", () => {
     });
 });
 
-xdescribe("Bags.peek", () => {
-    it("should have tests", () => {
-        fail();
+describe("Bags.peekOne", () => {
+    beforeAll(() => {
+        Rng.seed("Bags.peekOne");
     });
-})
 
-xdescribe("Bags.peekMany", () => {
-    it("should have tests", () => {
-        fail();
+    it("should get an item at random without affecting bag count", () => {
+        const items = Range(0, 10).toArray();
+        const b = Bags.make(items);
+
+        const taken = Bags.peekOne(b);
+
+        expect(taken.bag.items.count()).toBe(10);
+        expect(taken.selection).toEqual(4);
     });
-})
+});
+
+describe("Bags.peekMany", () => {
+    beforeAll(() => {
+        Rng.seed("Bags.peekMany");
+    });
+
+    it("should get many items at random without affecting bag count", () => {
+        const items = Range(0, 10).toArray();
+        const b = Bags.make(items);
+
+        const taken = Bags.peekMany(5, b);
+
+        expect(taken.bagEmpty).toEqual(false);
+        expect(taken.deficit).toEqual(0);
+        expect(taken.selections.count()).toEqual(5);
+        expect(taken.selections.toArray()).toEqual([
+            5, 0, 9, 1, 4
+        ]);
+        expect(taken.bag.items.count()).toBe(10);
+    });
+
+    it("should still indicate bag depletion when there aren't enough to get", () => {
+        const items = Range(0, 10).toArray();
+        const b = Bags.make(items);
+
+        const taken = Bags.peekMany(15, b);
+
+        expect(taken.bagEmpty).toEqual(true);
+        expect(taken.deficit).toEqual(5);
+        expect(taken.selections.count()).toEqual(10);
+        expect(taken.selections.toArray()).toEqual([
+            4, 2, 3, 6, 0, 1, 8, 5, 9, 7
+        ]);
+        expect(taken.bag.items.count()).toBe(10);
+    });
+});
