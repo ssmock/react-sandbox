@@ -1,4 +1,4 @@
-import { Seq, Set, Range, List } from "immutable";
+import { Set, Range, List } from "immutable";
 import { Rng } from "./rng";
 
 export type Bag<T> = {
